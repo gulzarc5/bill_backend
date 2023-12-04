@@ -1,0 +1,47 @@
+<IfModule mod_rewrite.c>
+    <IfModule mod_negotiation.c>
+        Options -MultiViews -Indexes
+    </IfModule>
+
+    RewriteEngine On
+
+    # Handle Authorization Header
+    RewriteCond %{HTTP:Authorization} .
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+    # Redirect Trailing Slashes If Not A Folder...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_URI} (.+)/$
+    RewriteRule ^ %1 [L,R=301]
+
+    # Send Requests To Front Controller...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [L]
+
+    <IfModule mod_headers.c>
+        # Allow requests from a specific domain (e.g., http://example.com)
+        Header set Access-Control-Allow-Origin " http://localhost:9000/*"
+
+        # Allow multiple domains (comma-separated)
+        # Header set Access-Control-Allow-Origin "http://example.com, http://another-domain.com"
+
+        # Allow all origins (not recommended for production)
+        # Header set Access-Control-Allow-Origin "*"
+
+        # Allow specific HTTP methods (e.g., GET, POST, PUT)
+        # Header set Access-Control-Allow-Methods "GET, POST, PUT, DELETE"
+
+        # Allow specific HTTP headers (e.g., Content-Type, Authorization)
+        Header set Access-Control-Allow-Headers "Content-Type, Authorization"
+
+        # Allow credentials (cookies, HTTP authentication)
+        Header set Access-Control-Allow-Credentials "true"
+
+        # Expose custom headers (if needed)
+        # Header set Access-Control-Expose-Headers "X-Custom-Header"
+
+        # Set the max age for preflight requests (OPTIONS)
+        Header set Access-Control-Max-Age "86400"
+    </IfModule>
+</IfModule>
